@@ -9,9 +9,9 @@
 
     <div class="clock">
       <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
+        <div data-rot="90" class="hand hour-hand"></div>
+        <div data-rot="90" class="hand min-hand"></div>
+        <div data-rot="90" class="hand second-hand"></div>
       </div>
     </div>
 
@@ -62,13 +62,32 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform: rotate(90deg);
+      transform-origin: 100%;
+      transition: all 0.05s;
     }
 
   </style>
 
   <script>
+    const incrementHand = (hand, hour = false) => {
+      let increment = hour ? 0.5 : 6;
+      let current = Number(hand.dataset.rot);
+      if (current === 360 - increment) {
+        hand.style.transform = "rotate(0deg)";
+        hand.dataset.rot = 0;
+      } else {
+        hand.style.transform = "rotate(" + (current + increment) + "deg)";
+        hand.dataset.rot = current + increment;
+      }
+    }
 
-
+    let second = document.querySelector('.second-hand');
+    let minute = document.querySelector('.min-hand');
+    let hour = document.querySelector('.hour-hand');
+    setInterval(() => {incrementHand(second)}, 1000);
+    setInterval(() => {incrementHand(minute)}, 60000);
+    setInterval(() => {incrementHand(hour, true)}, 60000);
   </script>
 </body>
 </html>
