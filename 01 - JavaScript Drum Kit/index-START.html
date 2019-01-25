@@ -58,7 +58,26 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  let keys = document.getElementsByClassName('key'), keyObj = {};
+  for (let key of keys){
+    keyObj[key.dataset.key] = key;
+  }
 
+  let audios = document.getElementsByTagName('audio'), audioObj = {};
+  for (let audio of audios){
+    audioObj[audio.dataset.key] = audio;
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (audioObj[String(event.keyCode)]) {
+      let audio = new Audio(audioObj[String(event.keyCode)].src);
+      audio.play();
+      let key = keyObj[String(event.keyCode)];
+      key.className += ' playing';
+      setTimeout(() => {key.className = key.className.replace(/\bplaying\b/, '')}, 100);
+    }
+    return false;
+  });
 </script>
 
 
