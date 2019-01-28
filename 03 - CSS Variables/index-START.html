@@ -69,7 +69,7 @@
     base.addEventListener('change', e => changeVal(e, '--base'));
 
     var changeVal = (e, varName) => {
-      let root = document.body;
+      let root = document.documentElement;
       varName === '--base' 
       ? root.style.setProperty(varName, e.target.value)
       : root.style.setProperty(varName, e.target.value + "px")
