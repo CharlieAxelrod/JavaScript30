@@ -96,6 +96,38 @@
   </div>
 
 <script>
+  let shiftDown = false;
+  let lastChecked = null;
+  const inputs = document.querySelectorAll('input');
+  const checkboxes = [...inputs];
+
+
+  const toggleShift = function(event) {
+    if (event.keyCode !== 16) return;
+    shiftDown = !shiftDown;
+  }
+
+  const selectMultiple = function(event) {
+    if (!shiftDown) {
+      if (event.target.checked) {
+        lastChecked = checkboxes.indexOf(event.target);
+      }
+      return;
+    }
+    const shiftIndex = checkboxes.indexOf(event.target);
+    const start = shiftIndex < lastChecked ? shiftIndex : lastChecked;
+    const end = start === shiftIndex ? lastChecked : shiftIndex;
+
+    for (let i = start + 1; i < end; i++) {
+      checkboxes[i].checked = true;
+    }
+  }
+
+  document.addEventListener('keydown', toggleShift);
+  document.addEventListener('keyup', toggleShift);
+  
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', selectMultiple));
+
 </script>
 </body>
 </html>
